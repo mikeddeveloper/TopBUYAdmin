@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0e1013;
+  --ink-soft: #5b6472;
+  --ink-faint: #9298a0;
+  --canvas: #f7f6f2;
+  --surface: #ffffff;
+  --border: #e7e4de;
+  --border-soft: #efede7;
+
+  --brand: #0f7a5c;
+  --brand-deep: #0a5d45;
+  --brand-wash: #e7f3ee;
+
+  --amber: #b25f0a;
+  --amber-wash: #faf0e0;
+
+  --red: #bf3b30;
+  --red-wash: #faeae7;
+
+  --blue: #2b5f96;
+  --blue-wash: #e9f0f8;
+
+  --clay: #a8502f;
+  --plum: #6b3fa0;
+
+  --sidebar: #12151a;
+  --sidebar-deep: #0b0d10;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-wash: var(--brand-wash);
+
+  --color-amber: var(--amber);
+  --color-amber-wash: var(--amber-wash);
+
+  --color-red: var(--red);
+  --color-red-wash: var(--red-wash);
+
+  --color-blue: var(--blue);
+  --color-blue-wash: var(--blue-wash);
+
+  --color-clay: var(--clay);
+  --color-plum: var(--plum);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-deep: var(--sidebar-deep);
+
+  --font-sans: var(--font-inter);
+  --font-figure: var(--font-space-grotesk);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-figure {
+  font-family: var(--font-figure), var(--font-sans), ui-sans-serif, sans-serif;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+::selection {
+  background: var(--brand-wash);
+  color: var(--brand-deep);
+}
+
+.bg-grain {
+  position: relative;
+}
+
+.bg-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mesh-brand {
+  background-color: var(--brand-deep);
+  background-image:
+    radial-gradient(at 15% 15%, rgba(255, 255, 255, 0.14) 0, transparent 55%),
+    radial-gradient(at 85% 0%, rgba(178, 95, 10, 0.55) 0, transparent 55%),
+    radial-gradient(at 100% 100%, rgba(107, 63, 160, 0.4) 0, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(15, 122, 92, 0.6) 0, transparent 50%),
+    linear-gradient(135deg, var(--sidebar-deep), var(--brand-deep) 65%, var(--brand) 100%);
+}
+
+.card-lift {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -12px rgba(14, 16, 19, 0.16);
+}
