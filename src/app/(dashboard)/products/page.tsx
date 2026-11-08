@@ -116,17 +116,18 @@ export default async function ProductsPage() {
           </Link>
         </Card>
       ) : (
-        <Card className="p-0">
-          <table className="w-full table-fixed border-collapse text-sm">
+        <Card className="overflow-hidden p-0">
+          <div className="w-full overflow-x-auto">
+          <table className="w-full min-w-[1120px] table-fixed border-collapse text-sm">
             <colgroup>
-              <col className="w-12" />
+              <col className="w-[3%]" />
               <col className="w-[26%]" />
-              <col className="w-[16%]" />
+              <col className="w-[13%]" />
               <col className="w-[12%]" />
-              <col className="w-[12%]" />
-              <col className="w-[14%]" />
               <col className="w-[11%]" />
-              <col className="w-[9%]" />
+              <col className="w-[12%]" />
+              <col className="w-[11%]" />
+              <col className="w-[12%]" />
             </colgroup>
             <thead>
               <tr className="border-b border-border-soft text-left text-xs font-medium text-ink-faint">
@@ -202,6 +203,7 @@ export default async function ProductsPage() {
               })}
             </tbody>
           </table>
+          </div>
         </Card>
       )}
     </div>
