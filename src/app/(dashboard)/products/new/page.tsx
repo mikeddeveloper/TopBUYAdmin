@@ -4,6 +4,7 @@ import { Card } from "@/components/card";
 import { Checkbox } from "@/components/checkbox";
 import { CategoryFields } from "@/components/category-fields";
 import { ImageUploadField } from "@/components/image-upload-field";
+import { ProductPreviewDrawer } from "@/components/product-preview-drawer";
 import { getCategories } from "@/lib/supabase/queries";
 import { createProduct } from "./actions";
 
@@ -82,7 +83,7 @@ export default async function AddProductPage() {
           </Link>
         </Card>
       ) : (
-        <form action={createProduct} className="grid grid-cols-3 gap-6">
+        <form action={createProduct} data-product-form className="grid grid-cols-3 gap-6">
           <div className="col-span-2 flex flex-col gap-6">
             <Card>
               <h2 className="text-base font-semibold text-ink">Basic information</h2>
@@ -124,6 +125,12 @@ export default async function AddProductPage() {
                 Sizes, colors, storage — coming soon. For now, set a single price and
                 stock count for this product below.
               </p>
+            </Card>
+
+            <Card>
+              <h2 className="text-base font-semibold text-ink">Preview</h2>
+              <p className="mb-4 mt-1 text-sm text-ink-soft">Check how this product will look in the app.</p>
+              <ProductPreviewDrawer categories={categories} />
             </Card>
           </div>
 
