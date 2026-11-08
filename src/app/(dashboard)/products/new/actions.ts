@@ -121,5 +121,5 @@ export async function createProduct(formData: FormData) {
 
   revalidatePath("/products");
   revalidatePath("/");
-  redirect("/products");
+  redirect(`/products?created=${status === "published" ? "published" : "draft"}`);
 }

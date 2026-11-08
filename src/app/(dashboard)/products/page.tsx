@@ -28,7 +28,12 @@ function FilterSelect({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ created?: string }>;
+}) {
+  const { created } = await searchParams;
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
 
   const categoryTabs = [
@@ -62,6 +67,17 @@ export default async function ProductsPage() {
           </Link>
         </div>
       </div>
+
+      {created === "published" && (
+        <div role="status" className="rounded-xl border border-brand/20 bg-brand-wash px-4 py-3 text-sm font-medium text-brand-deep">
+          Product published successfully. It is now visible to customers in the app.
+        </div>
+      )}
+      {created === "draft" && (
+        <div role="status" className="rounded-xl border border-border bg-surface px-4 py-3 text-sm font-medium text-ink-soft">
+          Product saved as a draft. It isn’t visible to customers yet.
+        </div>
+      )}
 
       <div className="flex items-center gap-2">
         {categoryTabs.map((tab, index) => (
