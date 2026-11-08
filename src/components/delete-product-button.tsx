@@ -23,10 +23,10 @@ export function DeleteProductButton({ id, name }: { id: string; name: string }) 
     });
   }
 
-  return <div className="flex flex-col items-start gap-1">
-    <button type="button" onClick={handleDelete} disabled={pending} aria-label={`Delete ${name}`}
-      className="inline-flex items-center gap-1 rounded-lg border border-red/25 px-2.5 py-1.5 text-xs font-medium text-red hover:bg-red-wash disabled:opacity-50">
-      <Trash2 className="h-3.5 w-3.5" />{pending ? "Deleting…" : "Delete"}
+  return <div className="flex flex-col items-center gap-1">
+    <button type="button" onClick={handleDelete} disabled={pending} aria-label={`Delete ${name}`} title={pending ? "Deleting…" : `Delete ${name}`}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red/25 text-red hover:bg-red-wash disabled:opacity-50">
+      <Trash2 className={`h-4 w-4 ${pending ? "animate-pulse" : ""}`} />
     </button>
     {error && <span className="max-w-32 text-[10px] text-red">{error}</span>}
   </div>;
