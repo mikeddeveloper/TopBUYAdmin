@@ -102,16 +102,21 @@ export async function createProduct(formData: FormData) {
       .from("product-images")
       .upload(path, file, { contentType: file.type });
 
-    if (uploadError) continue;
+    if (uploadError) {
+      throw new Error(`Product was created, but image upload failed: ${uploadError.message}`);
+    }
 
     const { data: publicUrlData } = supabase.storage.from("product-images").getPublicUrl(path);
 
-    await supabase.from("product_images").insert({
+    const { error: imageRecordError } = await supabase.from("product_images").insert({
       product_id: product.id,
       url: publicUrlData.publicUrl,
       position: i,
       is_cover: i === 0,
     });
+    if (imageRecordError) {
+      throw new Error(`Product was created, but saving its image failed: ${imageRecordError.message}`);
+    }
   }
 
   revalidatePath("/products");
