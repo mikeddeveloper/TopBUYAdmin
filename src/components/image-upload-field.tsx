@@ -2,10 +2,12 @@
 
 import { useRef, useState } from "react";
 import { Upload, X } from "lucide-react";
+import type { ProductImage } from "@/lib/supabase/types";
 
-export function ImageUploadField() {
+export function ImageUploadField({ initialImages = [] }: { initialImages?: ProductImage[] }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState(initialImages);
 
   function syncInput(next: File[]) {
     const transfer = new DataTransfer();
@@ -34,6 +36,26 @@ export function ImageUploadField() {
         </p>
       )}
       <div className="mt-2 grid grid-cols-5 gap-3">
+        {existingImages.map((image) => (
+          <div key={image.id} className="relative aspect-square overflow-hidden rounded-xl border border-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={image.url} alt="Product" className="h-full w-full object-cover" />
+            {image.is_cover && (
+              <span className="absolute top-2 left-2 rounded-full bg-ink px-2 py-0.5 text-[10px] font-medium text-white">Cover</span>
+            )}
+            <button
+              type="button"
+              onClick={() => setExistingImages((current) => current.filter((item) => item.id !== image.id))}
+              className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-white/80 text-ink-soft hover:bg-white"
+              aria-label="Remove image"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        ))}
+        {existingImages.map((image) => (
+          <input key={image.id} type="hidden" name="keep_image_ids" value={image.id} />
+        ))}
         <input
           ref={inputRef}
           type="file"

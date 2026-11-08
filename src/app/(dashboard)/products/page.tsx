@@ -189,9 +189,9 @@ export default async function ProductsPage() {
                       <StatusBadge status={statusLabel[product.status]} />
                     </td>
                     <td className="py-4 pr-6 pl-4">
-                      <button className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-ink/5">
+                      <Link href={`/products/${product.id}`} className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-ink/5">
                         Edit
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 );

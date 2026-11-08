@@ -17,21 +17,26 @@ export function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const supabase = createClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (signInError) {
+      if (signInError) {
+        setError(
+          signInError.message === "Invalid login credentials"
+            ? "Wrong email or password."
+            : signInError.message
+        );
+        setLoading(false);
+        return;
+      }
+
+      router.replace("/");
+      router.refresh();
+    } catch {
+      setError("Could not reach the sign-in service. Check your connection and try again.");
       setLoading(false);
-      setError(
-        signInError.message === "Invalid login credentials"
-          ? "Wrong email or password."
-          : signInError.message
-      );
-      return;
     }
-
-    router.replace("/");
-    router.refresh();
   }
 
   return (

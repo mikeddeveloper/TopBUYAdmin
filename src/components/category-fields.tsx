@@ -20,9 +20,21 @@ function SelectShell({ children }: { children: React.ReactNode }) {
 const selectClass =
   "w-full appearance-none rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand/25";
 
-export function CategoryFields({ categories }: { categories: Category[] }) {
-  const [categoryId, setCategoryId] = useState(categories[0]?.id ?? "");
+export function CategoryFields({
+  categories,
+  defaultCategoryId,
+  defaultSubcategory,
+}: {
+  categories: Category[];
+  defaultCategoryId?: string | null;
+  defaultSubcategory?: string | null;
+}) {
+  const [categoryId, setCategoryId] = useState(defaultCategoryId ?? categories[0]?.id ?? "");
   const selected = categories.find((category) => category.id === categoryId);
+  const subcategories = selected?.subcategories ?? [];
+  const subcategoryValue = subcategories.includes(defaultSubcategory ?? "")
+    ? defaultSubcategory!
+    : subcategories[0] ?? "";
 
   return (
     <>
@@ -46,8 +58,8 @@ export function CategoryFields({ categories }: { categories: Category[] }) {
       <div>
         <FieldLabel>Sub-category</FieldLabel>
         <SelectShell>
-          <select name="subcategory" className={selectClass}>
-            {(selected?.subcategories ?? []).map((sub) => (
+          <select name="subcategory" defaultValue={subcategoryValue} className={selectClass}>
+            {subcategories.map((sub) => (
               <option key={sub} value={sub}>
                 {sub}
               </option>
