@@ -97,3 +97,33 @@ export async function updateProduct(id: string, formData: FormData) {
   revalidatePath("/");
   redirect("/products");
 }
+
+export async function deleteProduct(id: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: images, error: imagesError } = await supabase
+    .from("product_images")
+    .select("url")
+    .eq("product_id", id);
+
+  if (imagesError) return { error: imagesError.message };
+
+  const storagePaths = (images ?? [])
+    .map(({ url }) => {
+      const marker = "/storage/v1/object/public/product-images/";
+      const markerIndex = url.indexOf(marker);
+      return markerIndex >= 0 ? decodeURIComponent(url.slice(markerIndex + marker.length)) : null;
+    })
+    .filter((path): path is string => Boolean(path));
+
+  if (storagePaths.length) {
+    const { error } = await supabase.storage.from("product-images").remove(storagePaths);
+    if (error) return { error: `Could not delete product images: ${error.message}` };
+  }
+
+  const { error: deleteError } = await supabase.from("products").delete().eq("id", id);
+  if (deleteError) return { error: deleteError.message };
+
+  revalidatePath("/products");
+  revalidatePath("/");
+  return {};
+}
